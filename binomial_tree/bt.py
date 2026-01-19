@@ -51,7 +51,37 @@ class BinomialTree(Option):
                 depth.append(self.S_0 * (self.u**j ) * (self.d**(i-j)))
             S.append(depth)
         return S
-    
 
+    def backprop(self, r, ret_tree=False):
+        disc = np.exp(-r*self.T/self.steps)
+        p = (disc - 1/self.u ) / (self.u-1/self.u) # Risk-accounted probability of an "up" move
+        V_prices = []
+        S_prices = self.stock_price()
+        depth = len(S_prices)
+
+        for i in range(1, depth+1):
+            V_prices.append([0]*i)
         
+        exp_V = V_prices[-1]
+        exp_S = S_prices[-1]
+
+        for i in range(len(exp_V)):
+            exp_V[i] = round(self.option_exp(exp_S[i], self.E, self.typ),4)
+
+        for i in range(depth-2, -1, -1):
+            for j in range(len(S_prices[i])):
+                V_curr = disc*(p*V_prices[i+1][j+1] + (1-p)*V_prices[i+1][j])
+                if self.contract == 'European':
+                    V_prices[i][j] = V_curr
+                elif self.contract == 'American':
+                    V_maybe = self.option_exp(S_prices[i][j], self.E, self.typ)
+                    if V_maybe > V_curr:
+                        V_prices[i][j] = V_maybe
+                    else:
+                        V_prices[i][j] = V_curr
         
+        if ret_tree == 'True':
+            return V_prices
+        
+        return V_prices[0][0]
+
