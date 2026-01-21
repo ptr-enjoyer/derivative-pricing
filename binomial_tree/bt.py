@@ -66,7 +66,7 @@ class BinomialTree(Option):
         exp_S = S_prices[-1]
 
         for i in range(len(exp_V)):
-            exp_V[i] = round(self.option_exp(exp_S[i], self.E, self.typ),4)
+            exp_V[i] = round(self.option_exp(exp_S[i]),4)
 
         for i in range(depth-2, -1, -1):
             for j in range(len(S_prices[i])):
