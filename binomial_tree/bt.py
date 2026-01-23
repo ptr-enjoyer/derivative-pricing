@@ -53,13 +53,14 @@ class BinomialTree(Option):
         return S
 
     def backprop(self, r, ret_tree=False):
-        disc = np.exp(-r*self.T/self.steps)
-        p = (disc - 1/self.u ) / (self.u-1/self.u) # Risk-accounted probability of an "up" move
+        t = self.T / self.steps
+        disc = np.exp(-r * t)
+        p = (np.exp(r * t) - self.d ) / (self.u - self.d) # Risk-accounted probability of an "up" move
         V_prices = []
         S_prices = self.stock_price()
         depth = len(S_prices)
 
-        for i in range(1, depth+1):
+        for i in range(1, depth):
             V_prices.append([0]*i)
         
         exp_V = V_prices[-1]
