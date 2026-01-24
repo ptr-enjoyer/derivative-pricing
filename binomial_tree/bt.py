@@ -47,8 +47,8 @@ class BinomialTree(Option):
         S = []
         for i in range(self.steps):
             depth = []
-            for j in range(i):
-                depth.append(self.S_0 * (self.u**j ) * (self.d**(i-j)))
+            for j in range(i+1):
+                depth.append(round(self.S_0 * (self.u**j ) * (self.d**(i-j)), 4))
             S.append(depth)
         return S
 
