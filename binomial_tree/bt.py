@@ -60,7 +60,7 @@ class BinomialTree(Option):
         S_prices = self.stock_price()
         depth = len(S_prices)
 
-        for i in range(1, depth):
+        for i in range(1, depth+1):
             V_prices.append([0]*i)
         
         exp_V = V_prices[-1]
@@ -77,9 +77,9 @@ class BinomialTree(Option):
                 elif self.contract == 'American':
                     V_maybe = self.option_exp(S_prices[i][j], self.E, self.typ)
                     if V_maybe > V_curr:
-                        V_prices[i][j] = V_maybe
+                        V_prices[i][j] = round(V_maybe, 4)
                     else:
-                        V_prices[i][j] = V_curr
+                        V_prices[i][j] = round(V_curr, 4)
         
         if ret_tree == 'True':
             return V_prices
