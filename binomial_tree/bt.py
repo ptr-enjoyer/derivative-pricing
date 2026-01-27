@@ -81,8 +81,52 @@ class BinomialTree(Option):
                     else:
                         V_prices[i][j] = round(V_curr, 4)
         
-        if ret_tree == 'True':
+        if ret_tree:
             return V_prices
         
         return V_prices[0][0]
+    
+    def plot_binomial_tree(self, stock_tree, option_tree, title='Binomial Tree', x_gap=1, y_gap=1, offset=0.07, annotate=True):
+        n = len(option_tree)
+        if n == 0:
+            raise ValueError('tree is empty')
+        
+        xs = []
+        ys = []
+        labels = []
+
+        coords = {}
+        for i in range(n):
+            m = len(option_tree[i])
+            for j in range(m):
+                x = i * x_gap
+                y = (j - (m-1) / 2) * y_gap
+                coords[(i, j)] = (x, y)
+                xs.append(x)
+                ys.append(y)
+                labels.append(option_tree[i][j]) 
+        
+        fig, ax = plt.subplots()
+        ax.set_title(title)
+
+        for i in range(n-1):
+            for j in range(len(option_tree[i])):
+                x0, y0 = coords[(i, j)]
+                x1, y1 = coords[(i+1, j)]
+                x2, y2 = coords[(i+1, j+1)]
+                ax.plot([x0, x1], [y0, y1], linewidth=1)
+                ax.plot([x0, x2], [y0, y2], linewidth=1)
+        if annotate:
+            for (i, j), (x, y) in coords.items():
+                    S = stock_tree[i][j]
+                    V = option_tree[i][j]
+                    ax.text(x, y + offset, f"{S:.2f}", ha="center", va="bottom", fontsize=8, zorder=4)
+                    ax.text(x, y - offset, f"{V:.2f}", ha="center", va="top", fontsize=8, zorder=4)
+
+
+
+        ax.axis("off")
+        plt.show()
+
+        
 
