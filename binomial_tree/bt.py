@@ -27,7 +27,7 @@ class Option():
 class BinomialTree(Option):
 
     def __init__(self, E, T, u, d, S_0, steps, typ, contract='European'):
-        super().__init__(E, T, typ, contract="European")
+        super().__init__(E, T, typ, contract=contract)
         self.u = u
         self.d = d
         self.S_0 = S_0
