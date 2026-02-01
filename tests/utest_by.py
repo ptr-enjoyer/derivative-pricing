@@ -84,6 +84,20 @@ class TestbBinomialTree(unittest.TestCase):
                          random.random(), int(random.random()), typ='put')
         self.assertEqual(bt2.typ, 'put')
 
+    def test_bt_option_exp_call(self):
+        bt = BinomialTree(100, random.random(), random.random(), random.random(), 120, 
+                          int(random.random()), typ='call')
+        self.assertEqual(bt.option_exp(120), 20)
+        self.assertEqual(bt.option_exp(100), 0)
+        self.assertEqual(bt.option_exp(90), 0)
+
+    def test_bt_option_exp_put(self):
+        bt = BinomialTree(100, random.random(), random.random(), random.random(), 120, 
+                          int(random.random()), typ='put')
+        self.assertEqual(bt.option_exp(120), 0)
+        self.assertEqual(bt.option_exp(100), 0)
+        self.assertEqual(bt.option_exp(90), 10)
+
 
 
 
