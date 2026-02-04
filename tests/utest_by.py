@@ -98,13 +98,19 @@ class TestbBinomialTree(unittest.TestCase):
         self.assertEqual(bt.option_exp(100), 0)
         self.assertEqual(bt.option_exp(90), 10)
 
+    def test_bt_calc_delt(self):
+        bt = BinomialTree(random.random(), random.random(), 1.1, 1/1.1, random.random(),
+                           int(random.random()), typ='call')
+        self.assertEqual(round(bt.calc_delta(120, 90, 100), 7), round(11/7, 7))
+        self.assertEqual(bt.calc_delta(0, 0, 100), 0)
 
+    def test_option_val(self):
+        bt1 = BinomialTree(random.random(), 1, 1.1, 1/1.1, random.random(), 1,
+                          typ='call')
+        self.assertEqual(round(bt1.option_val(0.05, 120, 100), 5), 109.29157) # Tests the functionn
+        self.assertEqual(round(bt1.option_val(0, 120, 100), 5), 109.52381) # Tests the time value
 
-
-
-
-
-
+        
 
 
 if __name__ == "__main__":
