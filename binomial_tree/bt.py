@@ -77,14 +77,14 @@ class BinomialTree(Option):
                 elif self.contract == 'American':
                     V_maybe = self.option_exp(S_prices[i][j], self.E, self.typ)
                     if V_maybe > V_curr:
-                        V_prices[i][j] = round(V_maybe, 4)
+                        V_prices[i][j] = V_maybe
                     else:
-                        V_prices[i][j] = round(V_curr, 4)
+                        V_prices[i][j] = V_curr
         
         if ret_tree:
             return V_prices
         
-        return V_prices[0][0]
+        return round(V_prices[0][0], 2)
     
     def plot_binomial_tree(self, stock_tree, option_tree, title='Binomial Tree', x_gap=1, y_gap=1, offset=0.07, annotate=True):
         n = len(option_tree)
