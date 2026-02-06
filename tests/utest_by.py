@@ -111,23 +111,26 @@ class TestbBinomialTree(unittest.TestCase):
         self.assertEqual(round(bt1.option_val(0, 120, 100), 5), 109.52381) # Tests the time value
 
     def test_stock_price(self):
-        bt1 = BinomialTree(random.random(), T=1, steps=2, u=1.1, d=1/1.1, S_0=100,
+        bt1 = BinomialTree(random.random(), T=1, steps=1, u=1.1, d=1/1.1, S_0=100,
                           typ='call')
         self.assertEqual(bt1.stock_price(), [[100], [round(100/1.1, 4), 110]])
-        bt2 = BinomialTree(random.random(), T=1, steps=3, u=1.1, d=1/1.1, S_0=100,
+        bt2 = BinomialTree(random.random(), T=1, steps=2, u=1.1, d=1/1.1, S_0=100,
                           typ='call')
         self.assertEqual(bt2.stock_price(), [[100], [round(100/1.1, 4), 110], [round(100/(1.1**2), 4), 100, round(100*(1.1**2), 4)]])
         
     def test_backprop(self):
-        bt1 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 2, 'call')
+        bt1 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 1, 'call')
         self.assertEqual(round(bt1.backprop(r=0), 2), 7.14)
-        bt2 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 2, 'put')
-        self.assertEqual(round(bt2.backprop(r=0), 2), 2.14)
-        bt3 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 3, typ='call')
-        self.assertEqual(round(bt3.backprop(r=0.05), 2), 12.45)
-
-
         
+        bt2 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 1, 'put')
+        self.assertEqual(round(bt2.backprop(r=0), 2), 2.14)
+        
+        bt3 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 1, typ='call')
+        self.assertEqual(round(bt3.backprop(r=0.05), 2), 10.63)
+
+        bt4 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 1, typ='put')
+        self.assertEqual(round(bt4.backprop(r=0.05), 2), 0.99)
+
 
 
 if __name__ == "__main__":

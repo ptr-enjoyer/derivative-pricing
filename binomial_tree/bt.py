@@ -45,7 +45,7 @@ class BinomialTree(Option):
     
     def stock_price(self):
         S = []
-        for i in range(self.steps):
+        for i in range(self.steps+1):
             depth = []
             for j in range(i+1):
                 depth.append(round(self.S_0 * (self.u**j ) * (self.d**(i-j)), 4))
