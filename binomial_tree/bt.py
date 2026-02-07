@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 class Option(): 
-    def __init__(self, E, T, typ, contract='European'):
+    def __init__(self, E, T, typ, contract='European', dividends=False):
         if typ == 'call' or typ == 'put':
             self.typ = typ
         else:
@@ -26,8 +26,8 @@ class Option():
 
 class BinomialTree(Option):
 
-    def __init__(self, E, T, u, d, S_0, steps, typ, contract='European'):
-        super().__init__(E, T, typ, contract=contract)
+    def __init__(self, E, T, u, d, S_0, steps, typ, contract='European', dividends=False):
+        super().__init__(E, T, typ, contract=contract, dividends=dividends)
         self.u = u
         self.d = d
         self.S_0 = S_0
