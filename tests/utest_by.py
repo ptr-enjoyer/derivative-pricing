@@ -117,7 +117,7 @@ class TestbBinomialTree(unittest.TestCase):
         bt2 = BinomialTree(random.random(), T=1, steps=2, u=1.1, d=1/1.1, S_0=100,
                           typ='call')
         self.assertEqual(bt2.stock_price(), [[100], [round(100/1.1, 4), 110], [round(100/(1.1**2), 4), 100, round(100*(1.1**2), 4)]])
-        self.assertEqual(bt2.stock_price(flag=True), [[100], [round(100/1.1, 4), 110], [round(100/(1.1**2), 4), 100, round(100*(1.1**2), 4)]])
+        #self.assertEqual(bt2.stock_price(flag=True), [[100], [round(100/1.1, 4), 110], [round(100/(1.1**2), 4), 100, round(100*(1.1**2), 4)]])
         
     def test_backprop(self):
         bt1 = BinomialTree(95, 1, 1.1, 1/1.1, 100, 1, 'call')

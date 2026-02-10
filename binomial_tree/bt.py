@@ -46,7 +46,7 @@ class BinomialTree(Option):
         V = np.exp((-r*t)) * (p * V_p + (1-p)* V_m)
         return V
     
-    def stock_price(self, flag=False):
+    def stock_price(self):
 
     
         S = [[float(self.S_0)]]
