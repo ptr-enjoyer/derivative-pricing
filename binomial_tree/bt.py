@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 class Option(): 
-    def __init__(self, E, T, typ, contract='European', dividends=False):
+    def __init__(self, E, T, typ, contract='European'):
         if typ == 'call' or typ == 'put':
             self.typ = typ
         else:
@@ -27,11 +27,14 @@ class Option():
 class BinomialTree(Option):
 
     def __init__(self, E, T, u, d, S_0, steps, typ, contract='European', dividends=False):
-        super().__init__(E, T, typ, contract=contract, dividends=dividends)
+        super().__init__(E, T, typ, contract=contract)
         self.u = u
         self.d = d
         self.S_0 = S_0
         self.steps = steps
+        self.dividends = dividends  or {}
+
+
 
     def calc_delta(self, V_p, V_m, S):
         delta = (V_p - V_m) / (self.u*S - self.d*S)
@@ -43,14 +46,39 @@ class BinomialTree(Option):
         V = np.exp((-r*t)) * (p * V_p + (1-p)* V_m)
         return V
     
-    def stock_price(self):
-        S = []
-        for i in range(self.steps+1):
-            depth = []
-            for j in range(i+1):
-                depth.append(round(self.S_0 * (self.u**j ) * (self.d**(i-j)), 4))
-            S.append(depth)
+    def stock_price(self, flag=False):
+
+    
+        S = [[float(self.S_0)]]
+
+        for i in range(1, self.steps + 1):
+            prev = S[i - 1]
+            level = [0.0] * (i + 1)
+
+            level[0] = round(prev[0] * self.d, 4)
+            for j in range(1, i):
+                level[j] = round(prev[j - 1] * self.u, 4)
+            level[i] = round(prev[i - 1] * self.u, 4)
+
+            # Apply cash dividend drop AT THIS STEP (ex-div)
+            if self.dividends and i in self.dividends:
+                D = float(self.dividends[i])
+                level = [round(max(s - D, 0.0)) for s in level]
+
+            S.append(level)
+
         return S
+        """
+            S = []
+            for i in range(self.steps+1):
+                depth = []
+                for j in range(i+1):
+                    depth.append(round(self.S_0 * (self.u**j ) * (self.d**(i-j)), 4))
+                S.append(depth)
+            return S
+        """
+        
+
 
     def backprop(self, r, ret_tree=False):
         t = self.T / self.steps
