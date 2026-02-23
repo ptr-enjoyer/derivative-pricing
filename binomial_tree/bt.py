@@ -26,12 +26,13 @@ class Option():
 
 class BinomialTree(Option):
 
-    def __init__(self, E, T, u, d, S_0, steps, typ, contract='European', dividends=False):
+    def __init__(self, E, T, mu, sigma, S_0, steps, typ, contract='European', dividends=False):
         super().__init__(E, T, typ, contract=contract)
-        self.u = u
-        self.d = d
-        self.S_0 = S_0
         self.steps = steps
+        self.u = np.exp(sigma*np.sqrt(self.T / self.steps))
+        self.d = 1 / self.u
+        self.S_0 = S_0
+
         self.dividends = dividends  or {}
 
 
