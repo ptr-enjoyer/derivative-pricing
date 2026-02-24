@@ -105,9 +105,9 @@ class TestbBinomialTree(unittest.TestCase):
         self.assertEqual(bt.calc_delta(0, 0, 100), 0)
 
     def test_option_val(self):
-        bt1 = BinomialTree(random.random(), 1, 1.1, 1/1.1, random.random(), 1,
+        bt1 = BinomialTree(E=random.random(), mu=0, sigma=0.3, S_0=100, steps=100,
                           typ='call')
-        self.assertEqual(round(bt1.option_val(0.05, 120, 100), 5), 109.29157) # Tests the functionn
+        self.assertEqual(round(bt1.option_val(0.05, 120, 100), 5), 109.96170) # Tests the functionn
         self.assertEqual(round(bt1.option_val(0, 120, 100), 5), 109.52381) # Tests the time value
 
     def test_stock_price(self):

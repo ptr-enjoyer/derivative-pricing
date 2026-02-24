@@ -56,10 +56,10 @@ class BinomialTree(Option):
             prev = S[i - 1]
             level = [0.0] * (i + 1)
 
-            level[0] = round(prev[0] * self.d, 4)
+            level[0] = prev[0] * self.d
             for j in range(1, i):
-                level[j] = round(prev[j - 1] * self.u, 4)
-            level[i] = round(prev[i - 1] * self.u, 4)
+                level[j] = prev[j - 1] * self.u
+            level[i] = prev[i - 1] * self.u
 
             # Apply cash dividend drop AT THIS STEP (ex-div)
             if self.dividends and i in self.dividends:
@@ -96,7 +96,7 @@ class BinomialTree(Option):
         exp_S = S_prices[-1]
 
         for i in range(len(exp_V)):
-            exp_V[i] = round(self.option_exp(exp_S[i]),4)
+            exp_V[i] = self.option_exp(exp_S[i])
 
         for i in range(depth-2, -1, -1):
             for j in range(len(S_prices[i])):
@@ -133,7 +133,7 @@ class BinomialTree(Option):
                 coords[(i, j)] = (x, y)
                 xs.append(x)
                 ys.append(y)
-                labels.append(option_tree[i][j]) 
+                labels.append(round(option_tree[i][j], 4)) 
         
         fig, ax = plt.subplots()
         ax.set_title(title)
