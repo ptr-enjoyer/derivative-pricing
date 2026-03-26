@@ -3,3 +3,6 @@ matplotlib
 pandas
 math
 scipy
+yfinance
+statsmodels
+scikit-learn
